@@ -46,6 +46,10 @@ h1, h2, h3, h4 {
   position: relative;
 }
 
+p {
+font-family: "Perpetua"
+}
+
 /* Subrayado bajo todos los títulos */
 h1:after,
 h2:after,
