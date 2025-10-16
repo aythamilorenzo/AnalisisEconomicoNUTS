@@ -364,7 +364,7 @@ El conjunto de datos contiene información anual sobre diversas partidas de ingr
 
   * **A (Anual):** La información es recolectada y reportada con una periodicidad de un año.
 
-
+<br>
 
 **Unidad de Medida** (`unit`) -> Especifica la unidad utilizada para expresar el valor numérico (`values`) de la observación. Es crucial para garantizar la comparabilidad de los datos.
 
@@ -379,6 +379,7 @@ El conjunto de datos contiene información anual sobre diversas partidas de ingr
   * **PPS\_EU27\_2020\_HAB** -> **PPS por habitante.** Es la métrica más valiosa para las comparaciones. Muestra el ingreso promedio por persona, pero **ajustado por el costo de vida**. Esta unidad refleja de forma más precisa el **nivel de vida real** y la capacidad de compra de los habitantes en distintas regiones.
 
 
+<br>
 
 
 **Dirección de Flujo** (`direct`) -> Indica la naturaleza de la transacción económica, especificando si es un saldo o una operación de pago/recepción.
@@ -389,7 +390,7 @@ El conjunto de datos contiene información anual sobre diversas partidas de ingr
   
   * **RECV (Recibido):** Hace referencia al valor de los **ingresos o transferencias** recibidas por el sector de los hogares.
 
-
+<br>
 
 **Indicador de Cuentas Nacionales** (`na_item`) -> Esta es la dimensión clave que define la variable económica exacta que se está midiendo, siguiendo la nomenclatura del Sistema Europeo de Cuentas (SEC 2010).
 
@@ -419,7 +420,7 @@ El conjunto de datos contiene información anual sobre diversas partidas de ingr
 
   * **P51C** -> **Formación Bruta de Capital Fijo:** La inversión en activos fijos (viviendas, maquinaria, etc.) por parte del sector de los hogares.
 
-
+<br>
 
 **Región Geográfica** (`geo`) -> Define la región geográfica a la que se refiere la observación, utilizando la Nomenclatura Común de Unidades Territoriales de Estadística (NUTS).
 
@@ -429,16 +430,15 @@ El conjunto de datos contiene información anual sobre diversas partidas de ingr
     
     * **Códigos NUTS 1, NUTS 2 y NUTS 3 (e.g., AT1, AT11, AT111):** Representan el desglose regional de los datos. **NUTS 2** es el nivel predominante en este *dataset* (por ejemplo, Comunidades Autónomas, grandes regiones).
 
-
+<br>
 
 Las observaciones (variables no categóricas) con valor numérico que aparecen en este dataset son:
-
 
 
 **Fecha de la observación** (`TIME_PERIOD`) -> Esta variable especifica el **punto temporal** al que se refiere el valor registrado. En un *dataset* con frecuencia **Anual** (`freq = "A"`), esta columna contendrá el año de la observación, en este caso, tomada el primer día del año.
 
 
-
+<br>
 
 **Valor de la observación** (`values`) -> Esta es la **variable numérica principal** que contiene la medida estadística de interés.
 
