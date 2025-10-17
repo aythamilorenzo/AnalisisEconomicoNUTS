@@ -754,7 +754,7 @@ Al analizar la evolución de la renta en las regiones de España, vemos que en g
 
 ```{r, fig.asp = 1.1}
 data.es <- data %>%
-  filter(na_item == "B6N", unit == "EUR_HAB", substr(geo,1,2) == "ES", nchar(geo) == 4)
+  filter(na_item == "B6N" & unit == "EUR_HAB" & substr(geo,1,2) == "ES" & nchar(geo) == 4 | geo == 'ES')
 
 ggplot(data.es, aes(x = TIME_PERIOD, y = values)) +
   geom_line(color = "#0072B2", linewidth = 0.8) +
@@ -764,7 +764,9 @@ ggplot(data.es, aes(x = TIME_PERIOD, y = values)) +
   labs(title = "Evolución de la renta disponible por región (España)",
        subtitle = "Valores en € por habitante",
        x = "Año", y = "Renta disponible") + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  theme(panel.spacing.x = unit(1, "lines"))
+
   
 
 
@@ -777,14 +779,17 @@ data.ahorro.es <- data %>%
   filter(na_item == 'B7N', unit == 'EUR_HAB', substr(geo,1,2) == 'ES', TIME_PERIOD == max(TIME_PERIOD) & nchar(geo) == 4) %>%
   arrange(values)
 
-ggplot(data.ahorro.es, aes(x = reorder(full_name, values), y = values)) +
-  geom_col(fill = "#009E73") +
+ggplot(data.ahorro.es, aes(x = reorder(full_name, values), 
+                           y = values,
+                           fill = full_name)) +
+  geom_col() +
   coord_flip() +
   theme_minimal() +
   theme(
     axis.text.y = element_text(size = 9),
     axis.text.x = element_text(size = 9),
-    plot.title = element_text(size = 14, face = "bold")
+    plot.title = element_text(size = 14, face = "bold"),
+    legend.position = 'none'
   ) +
   labs(
     title = "Nivel de ahorro de los hogares por región (España, último año)",
@@ -800,7 +805,6 @@ data.top10 <- data %>%
   arrange(desc(values)) %>%
   head(n = 10)
 
-data.top10
 
 data.top10 %>%
   ggplot(aes(x = reorder(full_name, values), y = values)) + # Ordena paises en funcion de values 
@@ -828,7 +832,6 @@ data.top10PPS <- data %>%
   arrange(desc(values)) %>%
   head(n = 10)
 
-data.top10PPS
 
 data.top10PPS %>%
   ggplot(aes(x = reorder(full_name, values), y = values)) + # Ordena paises en funcion de values 
@@ -842,6 +845,34 @@ data.top10PPS %>%
   ) +
   labs(
     title = "Top 10 países europeos con mayor renta disponible neta (PPS)",
+    subtitle = paste0("Último año disponible: ", max(data.top10$TIME_PERIOD)),
+    x = NULL,
+    y = "Renta neta disponible (€ por habitante)"
+  )
+```
+
+Echemos un vistazo al top 10 con peor renta neta por habitante.
+
+
+```{r}
+data.top10PPS <- data %>%
+  filter(na_item == 'B6N', unit == 'PPS_EU27_2020_HAB', geo %in% NUTS0_codes, TIME_PERIOD == max(TIME_PERIOD)) %>%
+  arrange(desc(values)) %>%
+  tail(n = 10)
+
+
+data.top10PPS %>%
+  ggplot(aes(x = reorder(full_name, values), y = values)) + # Ordena paises en funcion de values 
+  geom_col(fill = "#0072B2") +
+  coord_flip() +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 10),
+    axis.text.x = element_text(size = 9),
+    plot.title = element_text(size = 14, face = "bold")
+  ) +
+  labs(
+    title = "Top 10 países europeos con menor renta disponible neta (PPS)",
     subtitle = paste0("Último año disponible: ", max(data.top10$TIME_PERIOD)),
     x = NULL,
     y = "Renta neta disponible (€ por habitante)"
@@ -869,8 +900,7 @@ ggplot(datatop10.imp, aes(x = reorder(full_name, values), y = values)) +
     title = "Top 10 países europeos con mayores impuestos pagados",
     subtitle = paste0("Año ", max(datatop10.imp$TIME_PERIOD)),
     x = NULL,
-    y = "Millones de euros (MIO_EUR)",
-    caption = "Fuente: Eurostat, dataset 'nama_10r_2hhinc'"
+    y = "Millones de euros (MIO_EUR)"
   ) +
   theme(
     plot.title = element_text(face = "bold", size = 14),
@@ -898,9 +928,9 @@ datats.spain <- data %>%
   select(TIME_PERIOD, values) %>%
   arrange(TIME_PERIOD) %>%
   as_tsibble(index = TIME_PERIOD) %>%
-  fill_gaps()
+  fill_gaps() 
+    
 
-datats.spain
 ```
 
 Sacamos la misma conclusión que de las gráficas, en general la tendencia es hacia arriba excepto en eventos excepcionales como la crisis del 2008 o el covid.
@@ -916,7 +946,6 @@ datats.spain.arima <- datats.spain %>%
   model(ARIMA()) %>%
   report(fit)
 
-datats.spain.arima
 ```
 
 Como vemos en la predicción, no se espera que la evolución de la renta sea muy vertical como sucede en otros años.
@@ -939,7 +968,6 @@ datatsimp.spain <- data %>%
   fill_gaps()
 
 
-datatsimp.spain
 ```
 
 ```{r}
@@ -1016,7 +1044,7 @@ p <- SeguimientoActividadesProyecto%>%
      HORAS=round(sum(MINUTES)/60,digits = 1)
    )%>%
   mutate(ACTIVITY=factor(ACTIVITY,levels=actividades)) %>% 
-  ggplot(aes(ACTIVITY,HORAS)) +
+  ggplot(aes(ACTIVITY,HORAS, fill = ACTIVITY)) +
   geom_bar(stat = "identity") +
   geom_text(aes(label=HORAS),size=3,colour = "blue",nudge_y = 0.2)+ 
   theme(axis.text.x = element_text(angle = 45,hjust=1))+
