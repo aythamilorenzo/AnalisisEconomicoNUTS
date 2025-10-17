@@ -20,6 +20,7 @@ PARA CREAR UN CHUNK NUEVO USAR BOTÓN VERDE CON UNA "C" EN LA PARTE SUPERIOR DER
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 Sys.setlocale("LC_ALL", "es_ES.UTF-8")
 
+
 ```
 
 ```{css, echo = FALSE}
@@ -237,7 +238,7 @@ selectInput <- shiny::selectInput
 
 <!-- Añadir imagen ilustrativa del tema de mi proyecto --> 
 <center>
-<img src="https://ctim.es/Delmond.png" width="60%" />
+<img src= "portada.jpg" width="80%" />
 </center>
 
 # Introducción
@@ -806,22 +807,29 @@ data.top10 <- data %>%
   head(n = 10)
 
 
-data.top10 %>%
-  ggplot(aes(x = reorder(full_name, values), y = values)) + # Ordena paises en funcion de values 
-  geom_col(fill = "#0072B2") +
+ggplot(data.top10, aes(x = reorder(full_name, values), y = values, fill = values)) +
+  geom_col(width = 0.7, show.legend = FALSE) +          # Barras horizontales y gradiente
+  geom_text(aes(label = scales::comma(round(values,0))), 
+            hjust = -0.1, size = 4, color = "black") +  # Etiquetas sobre las barras
   coord_flip() +
-  theme_minimal() +
-  theme(
-    axis.text.y = element_text(size = 10),
-    axis.text.x = element_text(size = 9),
-    plot.title = element_text(size = 14, face = "bold")
-  ) +
+  scale_fill_gradient(low = "#56B4E9", high = "#0072B2") +  # Azul claro a oscuro según valor
+  theme_minimal(base_size = 13) +
   labs(
-    title = "Top 10 países europeos con mayor renta disponible neta",
+    title = "Top 10 países europeos con mayor renta neta disponible",
     subtitle = paste0("Último año disponible: ", max(data.top10$TIME_PERIOD)),
     x = NULL,
-    y = "Renta neta disponible (€ por habitante)"
-  )
+    y = "€ por habitante",
+  ) +
+  theme(
+    axis.text.y = element_text(size = 11, face = "bold"),
+    axis.text.x = element_text(size = 10),
+    plot.title = element_text(size = 16, face = "bold"),
+    plot.subtitle = element_text(size = 12, color = "grey30"),
+    plot.caption = element_text(size = 9, color = "grey50"),
+    panel.grid.major.y = element_blank(),  # elimina líneas horizontales
+    panel.grid.minor = element_blank()
+  ) +
+  expand_limits(y = max(data.top10$values) * 1.1)  # espacio para las etiquetas
 ```
 
 Como podemos ver, tener en cuenta el costo de la vida de cada país es importante, las posiciones de algunos países han cambiado como por ejemplo Francia y Bélgica.
@@ -833,22 +841,29 @@ data.top10PPS <- data %>%
   head(n = 10)
 
 
-data.top10PPS %>%
-  ggplot(aes(x = reorder(full_name, values), y = values)) + # Ordena paises en funcion de values 
-  geom_col(fill = "#0072B2") +
+ggplot(data.top10PPS, aes(x = reorder(full_name, values), y = values, fill = values)) +
+  geom_col(width = 0.7, show.legend = FALSE) +          # Barras horizontales y gradiente
+  geom_text(aes(label = scales::comma(round(values,0))), 
+            hjust = -0.1, size = 4, color = "black") +  # Etiquetas sobre las barras
   coord_flip() +
-  theme_minimal() +
-  theme(
-    axis.text.y = element_text(size = 10),
-    axis.text.x = element_text(size = 9),
-    plot.title = element_text(size = 14, face = "bold")
-  ) +
+  scale_fill_gradient(low = "#56B4E9", high = "#0072B2") +  # Azul claro a oscuro según valor
+  theme_minimal(base_size = 13) +
   labs(
-    title = "Top 10 países europeos con mayor renta disponible neta (PPS)",
+    title = "Top 10 países europeos con mayor renta neta disponible",
     subtitle = paste0("Último año disponible: ", max(data.top10$TIME_PERIOD)),
     x = NULL,
-    y = "Renta neta disponible (€ por habitante)"
-  )
+    y = "€ por habitante",
+  ) +
+  theme(
+    axis.text.y = element_text(size = 11, face = "bold"),
+    axis.text.x = element_text(size = 10),
+    plot.title = element_text(size = 16, face = "bold"),
+    plot.subtitle = element_text(size = 12, color = "grey30"),
+    plot.caption = element_text(size = 9, color = "grey50"),
+    panel.grid.major.y = element_blank(),  # elimina líneas horizontales
+    panel.grid.minor = element_blank()
+  ) +
+  expand_limits(y = max(data.top10$values) * 1.1)  # espacio para las etiquetas
 ```
 
 Echemos un vistazo al top 10 con peor renta neta por habitante.
@@ -861,22 +876,29 @@ data.top10PPS <- data %>%
   tail(n = 10)
 
 
-data.top10PPS %>%
-  ggplot(aes(x = reorder(full_name, values), y = values)) + # Ordena paises en funcion de values 
-  geom_col(fill = "#0072B2") +
+ggplot(data.top10PPS, aes(x = reorder(full_name, values), y = values, fill = values)) +
+  geom_col(width = 0.7, show.legend = FALSE) +          # Barras horizontales y gradiente
+  geom_text(aes(label = scales::comma(round(values,0))), 
+            hjust = -0.1, size = 4, color = "black") +  # Etiquetas sobre las barras
   coord_flip() +
-  theme_minimal() +
-  theme(
-    axis.text.y = element_text(size = 10),
-    axis.text.x = element_text(size = 9),
-    plot.title = element_text(size = 14, face = "bold")
-  ) +
+  scale_fill_gradient(low = "#56B4E9", high = "#0072B2") +  # Azul claro a oscuro según valor
+  theme_minimal(base_size = 13) +
   labs(
-    title = "Top 10 países europeos con menor renta disponible neta (PPS)",
+    title = "Top 10 países europeos con mayor renta neta disponible",
     subtitle = paste0("Último año disponible: ", max(data.top10$TIME_PERIOD)),
     x = NULL,
-    y = "Renta neta disponible (€ por habitante)"
-  )
+    y = "€ por habitante",
+  ) +
+  theme(
+    axis.text.y = element_text(size = 11, face = "bold"),
+    axis.text.x = element_text(size = 10),
+    plot.title = element_text(size = 16, face = "bold"),
+    plot.subtitle = element_text(size = 12, color = "grey30"),
+    plot.caption = element_text(size = 9, color = "grey50"),
+    panel.grid.major.y = element_blank(),  # elimina líneas horizontales
+    panel.grid.minor = element_blank()
+  ) +
+  expand_limits(y = max(data.top10$values) * 1.1)  # espacio para las etiquetas
 ```
 
 Otro factor interesante a tener en cuenta es comparar los impuestos que se pagan en cada país, vamos a ver los 10 países que más pagan impuestos en 2022.
@@ -941,7 +963,7 @@ datats.spain %>%
   labs(x = "Año", y = "Renta", title = "Evolución de la renta neta por habitante en España")
 ```
 
-```{r}
+```{r, results = F}
 datats.spain.arima <- datats.spain %>%
   model(ARIMA()) %>%
   report(fit)
@@ -978,16 +1000,19 @@ datatsimp.spain %>%
        title = "Evolución del costo de los impuestos en España")
 ```
 Haremos una predicción a 5 años.
-```{r}
+```{r, results = F}
 datatsimp.spain.arima <- datatsimp.spain %>%
   model(ARIMA()) %>%
   report(fit)
+```
 
+```{r}
 datatsimp.spain.arima %>%
   forecast(h = 5) %>%
   autoplot(datatsimp.spain) +
   theme_bw(base_size = 14)
 ```
+
 
 
 
