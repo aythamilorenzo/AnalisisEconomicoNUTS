@@ -946,7 +946,8 @@ data.spain.pie %>%
   geom_col() +
   geom_text(aes(x=1.,label = porcentaje),size=6, position = position_stack(vjust = 0.5)) +
   coord_polar(theta = "y") +
-  theme_void(base_size = 16)
+  theme_void(base_size = 16) +
+  labs(title  = "Proporción de la renta total en España divida por zonas")
 
 
 ```
