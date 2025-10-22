@@ -3,6 +3,7 @@ title: "Income of households by NUTS 2 region"
 author: "Aythami Lorenzo Padilla"
 date: "`r Sys.Date()`"
 output:
+  pdf_document: default
   html_document:
     number_sections: true
 ---
@@ -19,7 +20,6 @@ PARA CREAR UN CHUNK NUEVO USAR BOTÓN VERDE CON UNA "C" EN LA PARTE SUPERIOR DER
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 Sys.setlocale("LC_ALL", "es_ES.UTF-8")
-
 
 ```
 
@@ -213,6 +213,9 @@ library(plotly)
 library(ggplot2)
 library(tidyverse)
 library(eurostat)
+library(knitr)
+library(webshot2)
+
 
 # asociamos funciones a determinadas librerías para evitar posibles errores 
 filter <- dplyr::filter # Filtra filas según condiciones
@@ -228,6 +231,9 @@ slice<- dplyr::slice # Selecciona filas por posición
 relocate<- dplyr::relocate # Reordena columnas
 
 selectInput <- shiny::selectInput
+
+
+
 ```
 
 
@@ -278,13 +284,31 @@ tb <- read.xlsx("ODS.xlsx") %>%
 tb[is.na(tb)] <- ""
 
 colnames(tb) <- c("ODS","No procede", "Bajo", "Medio","Alto")
-tabla <- kable(tb,caption="Grado de relación del proyecto con los objetivos de desarrollo sostenible (ODS)", 
-                format = "html",
-                table.attr = 'style="width:500px; margin-left: auto; margin-right: auto;"') 
-tabla %>% column_spec(2, extra_css = "text-align: center;") %>%
-          column_spec(3, extra_css = "text-align: center;") %>%
-          column_spec(4, extra_css = "text-align: center;") %>%
-          column_spec(5, extra_css = "text-align: center;")
+tabla <- kbl(tb,
+    caption = "Grado de relación del proyecto con los ODS",
+    booktabs = TRUE,
+    linesep = ""
+  ) 
+  
+if (knitr::is_latex_output()) {
+  tabla <- tabla %>%
+    kable_styling(
+      latex_options = c("hold_position", "scale_down"),
+      font_size = 8,
+      position = "center"
+    ) %>%
+    column_spec(1, width = "4cm") %>%
+    column_spec(2:5, width = "2cm", latex_valign = "m")
+} else {
+  tabla <- tabla %>%
+    kable_styling(
+      full_width = FALSE,
+      position = "center"
+    ) %>%
+    column_spec(2:5, extra_css = "text-align: center;")
+}
+
+tabla
 ```
 
 
