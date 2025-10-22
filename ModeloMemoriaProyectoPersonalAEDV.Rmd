@@ -3,9 +3,9 @@ title: "Income of households by NUTS 2 region"
 author: "Aythami Lorenzo Padilla"
 date: "`r Sys.Date()`"
 output:
-  pdf_document: default
   html_document:
     number_sections: true
+  pdf_document: default
 ---
 
 <!--
@@ -820,7 +820,7 @@ ggplot(data.top10, aes(x = reorder(full_name, values), y = values, fill = values
   scale_fill_gradient(low = "#56B4E9", high = "#0072B2") +  # Azul claro a oscuro según valor
   theme_minimal(base_size = 13) +
   labs(
-    title = "Top 10 países europeos con mayor renta neta disponible",
+    title = "Top 10 países (EU) con mayor renta neta disponible",
     subtitle = paste0("Último año disponible: ", max(data.top10$TIME_PERIOD)),
     x = NULL,
     y = "€ por habitante",
@@ -854,7 +854,7 @@ ggplot(data.top10PPS, aes(x = reorder(full_name, values), y = values, fill = val
   scale_fill_gradient(low = "#56B4E9", high = "#0072B2") +  # Azul claro a oscuro según valor
   theme_minimal(base_size = 13) +
   labs(
-    title = "Top 10 países europeos con mayor renta neta disponible",
+    title = "Top 10 países (EU) con mayor renta neta disponible",
     subtitle = paste("Último año disponible: " , max(data.top10$TIME_PERIOD), "(Valores tomados en PPS)"),
     x = NULL,
     y = "€ por habitante",
@@ -889,7 +889,7 @@ ggplot(data.top10PPS, aes(x = reorder(full_name, values), y = values, fill = val
   scale_fill_gradient(low = "#56B4E9", high = "#0072B2") +  # Azul claro a oscuro según valor
   theme_minimal(base_size = 13) +
   labs(
-    title = "Top 10 países europeos con mayor renta neta disponible",
+    title = "Top 10 países (EU) con menor renta neta disponible",
     subtitle = paste("Último año disponible: " , max(data.top10$TIME_PERIOD), "(Valores tomados en PPS)"),
     x = NULL,
     y = "€ por habitante",
@@ -951,7 +951,67 @@ data.spain.pie %>%
 
 ```
 
+En España, el PPS por habitante es mayor que el ingreso nominal en todas las regiones, lo que indica que los precios locales son más bajos que la media de la UE, y por tanto el poder adquisitivo real de los hogares españoles es superior al que sugieren los ingresos nominales. La región Noreste muestra la mayor renta y poder adquisitivo, mientras que el Sur es la más desfavorecida
 
+```{r}
+
+data.spain.disp <- data %>% 
+  filter(substr(geo,1,2) == 'ES' & NUTS == 1 & unit %in% c('PPS_EU27_2020_HAB', 'EUR_HAB') & !full_name %in% c('Comunidad de Madrid', 'Canarias') & TIME_PERIOD == max(TIME_PERIOD) & na_item == 'B6N') %>% 
+  select(full_name, unit, values, na_item) %>% 
+  pivot_wider(names_from = unit, values_from = values)
+
+data.spain.disp %>% 
+  ggplot(aes(x = PPS_EU27_2020_HAB, 
+             y = EUR_HAB,
+             color = full_name)) +
+  geom_point(alpha = 0.7) +
+  geom_text(aes(label = full_name), hjust = 0.5, vjust = -0.5, size = 3) +
+  scale_color_brewer(palette = "Set2") +
+  labs(
+    title = "España: Renta neta en PPS vs Renta neta en EUR/HAB",
+    subtitle = "Por región",
+    x = "PPS per cápita",
+    y = "Ingreso medio por habitante",
+  ) +
+  theme_minimal() +
+  theme(legend.position = 'none')
+```
+
+
+```{r}
+
+
+paises_comparar <- c(
+  "ES", "PT", "FR",      # Vecinos
+  "IT", "EL",             # Europa del Sur
+  "SE", "DK", "FI",       # Europa del Norte / altos ingresos
+  "PL", "HU", "RO"        # Europa del Este / PPS más bajo
+)
+
+data.spain.NUTS0.disp <- data %>% 
+  filter(geo %in% c(paises_comparar) & na_item == 'B6N' & unit == 'PPS_EU27_2020_HAB') %>% 
+  select(full_name, unit, TIME_PERIOD, values) %>% 
+  pivot_wider(names_from = unit, values_from = values) %>% 
+  arrange(desc(PPS_EU27_2020_HAB)) 
+  
+  
+
+data.spain.NUTS0.disp %>% 
+  ggplot(aes(x = TIME_PERIOD, 
+             y = PPS_EU27_2020_HAB, 
+             group = full_name, 
+             color = full_name)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  labs(
+    title = "Evolución del PPS per cápita (renta neta) en países de la UE",
+    x = "Año",
+    y = "PPS per cápita",
+    color = "País"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "right")
+```
 
 
 ## Modelado
