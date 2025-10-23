@@ -1014,6 +1014,37 @@ data.spain.NUTS0.disp %>%
   theme(legend.position = "right")
 ```
 
+El gráfico muestra la distribución de los distintos tipos de ingreso por habitante en las regiones españolas. Se observa que el ingreso primario (B5N) es el más alto y disperso, mientras que el ingreso disponible (B6N) se reduce tras impuestos y transferencias, evidenciando el efecto redistributivo. El ahorro (B7N) presenta mayor variabilidad, reflejando diferencias regionales en la capacidad de ahorro. Los outliers pueden corresponder a regiones con niveles excepcionalmente altos, probablemente Madrid o Cataluña, donde el PIB y las rentas tienden a ser más elevadas.
+
+```{r}
+data.spain.box <- data %>% 
+  filter(NUTS == 2 & substr(geo,1,2) == 'ES' & na_item %in% c('B5N', 'B6N', 'B7N') & unit == 'EUR_HAB') %>% 
+  pivot_wider(names_from = unit, values_from = values)
+
+data.spain.box %>% 
+  ggplot(aes(x = na_item, y = EUR_HAB, fill = na_item)) +
+  geom_boxplot(alpha = 0.7, color = "black", outlier.color = "red") +
+  scale_fill_manual(
+    values = c("B5N" = "#FDAE61", "B6N" = "#2C7BB6", "B7N" = "#66BD63"),
+    labels = c(
+      "B5N" = "Ingreso Primario Neto",
+      "B6N" = "Ingreso Disponible Neto",
+      "B7N" = "Ahorro Neto"
+    )
+  ) +
+  labs(
+    title = "Comparación de tipos de ingreso en regiones españolas",
+    subtitle = "Distribución del euro per cápita",
+    x = "Tipo de ingreso",
+    y = "Unidades monetarias medidas en euros per cápita",
+    fill = "Tipo de ingreso"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 13),
+    legend.position = "top"
+  )
+```
 
 ## Modelado
 
