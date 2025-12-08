@@ -381,7 +381,7 @@ Para alcanzar este propósito global, se establecen los siguientes objetivos esp
 * **Examinar la estructura de ingresos y gastos:** Comprender la relación entre la generación de riqueza (Ingreso Primario), la intervención del Estado (Presión Fiscal y Prestaciones) y la capacidad resultante de Ahorro de las familias.
 
 * **Modelar tendencias futuras:** Aplicar técnicas de predicción estadística (modelos ARIMA) para anticipar la evolución de la renta neta y la carga impositiva en el horizonte 2030, permitiendo vislumbrar si la brecha económica tiende a cerrarse o a perpetuarse.
-# Aportaciones del trabajo
+
 
 # Aportaciones del trabajo
 
@@ -1532,8 +1532,8 @@ p_diferencia <- data.diff.paises %>%
   ) +
   geom_hline(yintercept = 0, color = "black", linewidth = 0.8) + 
   labs(title = "Efecto Neto de la Redistribución Fiscal (2022)",
-       x = "",
-       y = "Países",
+       x = "Países",
+       y = "",
        fill = "Efecto Neto (€/Habitante)") +
   theme_minimal(base_size = 14) +
   theme(legend.position = "bottom",
