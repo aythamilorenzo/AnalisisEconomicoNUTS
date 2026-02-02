@@ -628,7 +628,7 @@ El conjunto de datos contiene información anual sobre diversas partidas de ingr
 
   * **D4** -> **Rentas de la Propiedad:** Ingresos recibidos de la propiedad de activos (intereses, dividendos, rentas de la tierra, etc.).
   
-    * **D5** -> **Impuestos Corrientes sobre la Renta y el Patrimonio:** Impuestos obligatorios que los hogares pagan sobre sus ingresos o sus activos.
+  * **D5** -> **Impuestos Corrientes sobre la Renta y el Patrimonio:** Impuestos obligatorios que los hogares pagan sobre sus ingresos o sus activos.
 
   * **D61** -> **Cotizaciones Sociales Netas:** Contribuciones pagadas a la seguridad social, ajustadas para reflejar las cuentas netas.
 
