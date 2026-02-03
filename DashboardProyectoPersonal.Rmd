@@ -3,6 +3,8 @@ title: "Ingresos medios de los hogares por NUTS2"
 author: "Aythami Lorenzo"
 output: flexdashboard::flex_dashboard
 runtime: shiny
+resource_files:
+- ModeloMemoriaProyectoPersonalAEDV.Rmd
 ---
 
 ```{r setup, include=FALSE, echo = FALSE}
