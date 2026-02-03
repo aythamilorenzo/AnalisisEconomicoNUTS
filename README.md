@@ -12,6 +12,7 @@ Se ha estructurado siguiendo el estándar **CRISP-DM** (*Cross-Industry Standard
 
 ## 🚀 Accesos directos
 * 📄 **[Ver Memoria del Proyecto (Web)](https://aythamilorenzo.github.io/Analisis-ingresos-de-los-hogares-NUTS2/ModeloMemoriaProyectoPersonalAEDV.html)**
+* 🌍 **[Ver Cuadro de Mandos del Proyecto (Web)](https://aythamilorenzo.shinyapps.io/dashboardproyectopersonal/)**
 
 ## 🔄 Ciclo de Vida del Proyecto
 
@@ -44,12 +45,12 @@ Despliegue de resultados mediante un informe dinámico en **R Markdown**, diseñ
 
 ## 📂 Estructura del Proyecto
 * `utilidades.R`: Scripts de soporte con funciones utilizadas en las distintas gráficas.
-* `ModeloMemoriaProyectoPersonalAEDV.Rmd`: Código en bruto sobre el desarrollo del proyecto
+* `ModeloMemoriaProyectoPersonalAEDV.Rmd`: Código en bruto sobre el desarrollo del proyecto.
 * `ModeloMemoriaProyectoPersonalAEDV.html`: Cuaderno maestro con el desarrollo de las 6 fases.
 * `poblacion.csv` / `nama_10r_2hhinc.csv`: Datasets utilizados en el análisis.
 * `portada.jpg`: Imagen utilizada como portada del html del proyecto.
 * `ODS.xlsx`: Hoja de excel con los objetivos de desarrollo sostenible visibles en la fase de introducción del proyecto.
-* `.gitattributes`: Configuración para excluir archivos generados (HTML/JS) de las estadísticas del lenguaje.
+* `DashboardProyectoPersonal.Rmd`: Código en bruto sobre el desarrollo del cuadro.
 
 ---
 
